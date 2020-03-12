@@ -16,14 +16,20 @@ controller.novo = async (req, res) => {
 }
 
 controller.listar = async (req, res) => {
-    try {
-        //find(), sem parâmetros, retorna todos
-        const lista = await Fornecedor.find()
-        res.send(lista) // HTTP 200 implícito)
+    
+    if(Object.keys(req.query).length > 0) { // Se houver query string
+        busca(req, res)
     }
-    catch {
-        console.log(erro)
-        res.status(500).send(erro)
+    else { // sem query string
+        try {
+            //find(), sem parâmetros, retorna todos
+            const lista = await Fornecedor.find()
+            res.send(lista) // HTTP 200 implícito)
+        }
+        catch {
+            console.log(erro)
+            res.status(500).send(erro)
+        }
     }
 }
 
@@ -75,6 +81,28 @@ controller.excluir = async (req, res) => {
         }
     }
     catch(erro){
+        console.log(erro)
+        res.status(500).send(erro)
+    }
+}
+
+async function busca(req, res) {
+    let criterio = {}
+
+    const atrib = Object.keys(req.query)[0];
+    const valor = Object.values(req.query)[0];
+
+    // $options: 'i' => case insensitive
+    criterio[atrib] = { $regex: valor, $options: 'i'}
+
+    console.log('Critério:')
+    console.log(criterio)
+
+    try {
+        const lista = await Fornecedor.find(criterio);
+        res.send(lista)
+    }
+    catch(erro) {
         console.log(erro)
         res.status(500).send(erro)
     }
