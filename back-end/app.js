@@ -23,7 +23,22 @@ app.use('/users', usersRouter);
 let teste = require('./routes/teste');
 app.use('/teste', teste);
 
-const fornecedor = require('./routes/fornecedor');
-app.use('/fornecedor', fornecedor);
+const responsavel = require('./routes/responsavel');
+app.use('/responsavel', responsavel);
+
+const cuidador = require('./routes/cuidador');
+app.use('/cuidador', cuidador);
+
+const idoso = require('./routes/idoso');
+app.use('/idoso', idoso);
+
+const medicamento = require('./routes/medicamento');
+app.use('/medicamento', medicamento);
+
+const horario = require('./routes/horario');
+app.use('/horario', horario);
+
+const confirmar_acao = require('./routes/confirmar_acao');
+app.use('/confirmar-acao', confirmar_acao);
 
 module.exports = app;
